@@ -8,14 +8,20 @@ let players = {};
 let coins = {};
 let coinID = 0;
 
-server.listen(3500, () => console.log('Example app listening on port 3500!'));
+server.listen(80, () => console.log('Example app listening on port 80!'));
 app.use(express.static('game/build')); //server static content from game (so you can go to the site and load the game)
 
 io.on('connection', (socket) => {
   console.log("connection from " + socket.id);
   socket.on('updatePlayer', (data) => {
-
-    players[socket.id] = { ...players[socket.id], x:data.x, y:data.y, velocityX:data.velocityX, velocityY:data.velocityY, lastUpdate: Date.now()};
+    //update player information
+    if(players[socket.id] === undefined)
+      players[socket.id] = { x:data.x, y:data.y, lastUpdate: Date.now(), score: 0};
+    else{
+      players[socket.id].x = data.x;
+      players[socket.id].y = data.y;
+      players[socket.id].lastUpdate = Date.now();
+    }
     if(players[socket.id].score === undefined)
       players[socket.id].score = 0;
     checkCoinCollision(players[socket.id]);
