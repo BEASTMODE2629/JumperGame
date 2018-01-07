@@ -10,7 +10,11 @@ let coins = {};
 let coinID = 0;
 
 server.listen(port, () => console.log('Example app listening on port ' + port + '!'));
-app.use(express.static('game/build')); //server static content from game (so you can go to the site and load the game)
+app.get('/test', (req,res) => {
+  res.send('This is a test page');
+})
+app.use(express.static('./game/build')); //server static content from game (so you can go to the site and load the game)
+
 
 io.on('connection', (socket) => {
   console.log("connection from " + socket.id);
