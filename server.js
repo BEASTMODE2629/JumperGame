@@ -2,13 +2,14 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+const port = process.env.PORT || 80;
 //const garageServer = require('garageServer.io');
 
 let players = {};
 let coins = {};
 let coinID = 0;
 
-server.listen(80, () => console.log('Example app listening on port 80!'));
+server.listen(port, () => console.log('Example app listening on port ' + port + '!'));
 app.use(express.static('game/build')); //server static content from game (so you can go to the site and load the game)
 
 io.on('connection', (socket) => {
